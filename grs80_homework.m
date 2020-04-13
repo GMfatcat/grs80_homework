@@ -44,33 +44,40 @@ for x = 0:179
         R2(x+1) = re*(1+0.0053024*sin(x)^2 -0.25*0.0000058*sin(2*x)^2); %method 2
         R12(x+1) =R1(x+1) -R2(x+1); %t兩種方法差值
         RH1(x+1) = R1(x+1)*(1-(2/a)*(1+f+m-2*f*sin(x)^2)*10+300/a^2); %方法一的10公尺重力加速度
-        RH2(x+1) = R2(x+1)*(1-(2/a)*(1+f+m-2*f*sin(x)^2)*10+300/a^2); %方法二的10公尺重力加速度      
+        RH2(x+1) = R2(x+1)*(1-(2/a)*(1+f+m-2*f*sin(x)^2)*10+300/a^2); %方法二的10公尺重力加速度 
+        M(x+1) = a*(1-e1^2)/(1-(e1^2)*sin(x)^2)^1.5; %子午圈
+        N(x+1) = a/(1-(e1^2)*sin(x)^2)^0.5; %卯有圈
+        Ra(x+1) = 1/(((cos(30)^2)/ M(x+1)) + ((sin(30)^2)/ N(x+1))); %方位角30度的曲率半徑
 end
-
+AA = mean(Ra)
+A1 = max(Ra)
+A2 = min(Ra)
 %畫圖
 hold on
-subplot(4,1,1)
-plot(0:180,R1,'r')
+subplot(5,1,1)
+plot(0:179,R1,'r')
 axis([0, 90, 9.6, 10]);
 legend('R1')
 ylabel('normal gravity')
-subplot(4,1,2)
-plot(0:180,R2,'b')
+subplot(5,1,2)
+plot(0:179,R2,'b')
 axis([0, 90, 9.6, 10]);
 legend('R2')
 ylabel('normal gravity')
-subplot(4,1,3)
+subplot(5,1,3)
 plot(0:179,RH1,'k')
 axis([0, 90, 9.6, 10]);
 ylabel('normal gravity')
 legend('RH1')
-subplot(4,1,4)
+subplot(5,1,4)
 plot(0:179,RH2,'g')
 axis([0, 90, 9.6, 10]);
 ylabel('normal gravity')
-hold off
 legend('RH2')
-
-
-
+subplot(5,1,5)
+plot(0:179,Ra,'c')
+%axis([0, 90, 6.3462*10^6, 6.3464*10^6]);
+ylabel('radius')
+hold off
+legend('Ra')
 
